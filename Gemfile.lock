@@ -1,10 +1,4 @@
 PATH
-  remote: ../orthoses
-  specs:
-    orthoses (1.19.0)
-      rbs (~> 3.0)
-
-PATH
   remote: .
   specs:
     orthoses-paranoia (0.1.0)
@@ -47,6 +41,8 @@ GEM
     lint_roller (1.1.0)
     logger (1.6.6)
     minitest (5.25.4)
+    orthoses (1.19.0)
+      rbs (~> 3.0)
     parallel (1.26.3)
     paranoia (3.0.1)
       activerecord (>= 6, < 8.1)
@@ -89,7 +85,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
-  orthoses!
+  orthoses
   orthoses-paranoia!
   rake (~> 13.0)
   rgot
