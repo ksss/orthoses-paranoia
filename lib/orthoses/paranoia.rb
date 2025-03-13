@@ -17,7 +17,7 @@ module Orthoses
 
       acts_as_paranoid.captures.each do |capture|
         base_name = Utils.module_name(capture.method.receiver) or next
-        paranoia_class_methods = "#{base_name}::ParanoiaClassMethods"
+        paranoia_class_methods = "#{base_name}::ParanoiaMethods"
         next if store.key?(paranoia_class_methods)
 
         store[paranoia_class_methods].header = "module #{paranoia_class_methods}"
@@ -28,6 +28,8 @@ module Orthoses
         store[paranoia_class_methods] << "alias without_deleted paranoia_scope"
 
         store[base_name] << "extend #{paranoia_class_methods}"
+        store["#{base_name}::ActiveRecord_Relation"] << "include #{paranoia_class_methods}"
+        store["#{base_name}::ActiveRecord_Associations_CollectionProxy"] << "include #{paranoia_class_methods}"
       end
 
       store
