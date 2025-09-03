@@ -5,6 +5,7 @@ Orthoses::Paranoia automatically generates RBS for methods added by Paranoia.
 
 ```rb
 User.with_deleted #=> User::ActiveRecord_Relation
+User.first.deleted? #=> bool
 ```
 
 ## Installation
