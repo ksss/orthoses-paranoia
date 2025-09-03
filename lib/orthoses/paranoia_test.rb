@@ -20,7 +20,8 @@ module ParanoiaTest
     actual = store["ParanoiaTest::User"].to_rbs
     expect = <<~RBS
       class ParanoiaTest::User < ::ActiveRecord::Base
-        extend ParanoiaTest::User::ParanoiaMethods
+        include ::Paranoia::InstanceMethods[ParanoiaTest::User]
+        extend ::Paranoia::ClassMethods[ParanoiaTest::User, ParanoiaTest::User::ActiveRecord_Relation]
       end
     RBS
     unless expect == actual
@@ -30,7 +31,7 @@ module ParanoiaTest
     actual = store["ParanoiaTest::User::ActiveRecord_Relation"].to_rbs
     expect = <<~RBS
       class ParanoiaTest::User::ActiveRecord_Relation < ::ActiveRecord::Relation
-        include ParanoiaTest::User::ParanoiaMethods
+        include ::Paranoia::ClassMethods[ParanoiaTest::User, ParanoiaTest::User::ActiveRecord_Relation]
       end
     RBS
     unless expect == actual
@@ -40,7 +41,7 @@ module ParanoiaTest
     actual = store["ParanoiaTest::User::ActiveRecord_Associations_CollectionProxy"].to_rbs
     expect = <<~RBS
       class ParanoiaTest::User::ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
-        include ParanoiaTest::User::ParanoiaMethods
+        include ::Paranoia::ClassMethods[ParanoiaTest::User, ParanoiaTest::User::ActiveRecord_Relation]
       end
     RBS
     unless expect == actual
@@ -50,24 +51,6 @@ module ParanoiaTest
     actual = store["ParanoiaTest::Post"].to_rbs
     expect = <<~RBS
       class ParanoiaTest::Post < ::ActiveRecord::Base
-      end
-    RBS
-    unless expect == actual
-      t.error("expect=\n```rbs\n#{expect}```\n, but got \n```rbs\n#{actual}```\n")
-    end
-
-    actual = store["ParanoiaTest::User::ParanoiaMethods"].to_rbs
-    expect = <<~RBS
-      module ParanoiaTest::User::ParanoiaMethods
-        def with_deleted: () -> ParanoiaTest::User::ActiveRecord_Relation
-
-        def only_deleted: () -> ParanoiaTest::User::ActiveRecord_Relation
-
-        alias deleted only_deleted
-
-        def paranoia_scope: () -> ParanoiaTest::User::ActiveRecord_Relation
-
-        alias without_deleted paranoia_scope
       end
     RBS
     unless expect == actual
