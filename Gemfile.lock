@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    orthoses-paranoia (0.2.0)
+    orthoses-paranoia (1.0.0)
       orthoses (>= 1.13)
       paranoia
 
